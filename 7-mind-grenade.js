@@ -6,3 +6,5 @@ function addValues (){
 }
 
 addValues()
+
+// this is imported by 3-modules so see there what is being done with it

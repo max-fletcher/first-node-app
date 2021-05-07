@@ -1,6 +1,6 @@
-// local
+// local since this is not exported using module.exports
 const secret = 'SUPER SECRET'
-// global/share
+// global/shared
 const john = 'john'
 const peter = 'peter'
 
