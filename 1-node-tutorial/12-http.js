@@ -12,12 +12,14 @@ const server = http.createServer(function(req, res){
       // same as 
       // res.write('Welcome to out home page !!')
       // res.end()
+      // this sends a response back to the browser. Otherwise, it keeps cycling the event loop.
       res.end('<h1> Welcome To The Home Page !! </h1>')
    }
    else if(req.url === '/about'){
       // same as 
       // res.write('Welcome to out about page !!')
       // res.end()
+      // this sends a response back to the browser. Otherwise, it keeps cycling the event loop.
       res.end('<h1> Welcome To The About Page !! </h1>')
    }
 
@@ -25,6 +27,7 @@ const server = http.createServer(function(req, res){
    // res.write('Welcome to out home page !!')
    // end the request
    else{
+      // this sends a response back to the browser. Otherwise, it keeps cycling the event loop.
       res.end(' <h1> Oops !! </h1> <p> Can\'t Find the page you are looking for !! </p> <a href="/"> back Home </a> ')
    }
 })
