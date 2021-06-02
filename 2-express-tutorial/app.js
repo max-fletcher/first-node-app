@@ -1,75 +1,36 @@
 // invoke express
 const express = require('express')
 const app = express()
-// importing the products JSON array from the data file
-const {products} = require('./data')
 
-//app.get
-app.get('/', (req, res)=>{   
-   // res.json([{name:'John'}, {name: 'susan'}])
-   res.send('<h1> Home Page For You ! Okey Poke !! </h1> <a href="/api/products"> Products </a>')
-   // res.json(products)
+// importing the logger function inside logger.js. The function in that is used as middleware
+const logger = require('./logger')
+
+// Using logger as middleware. Also, order matters. Placing it below any app.get will cause this to apply
+// to any app.get below it but not to the app.get above it. Also, the first argument is the route prefix the
+// middleware will be applied to.
+app.use('/api',logger)
+
+// req =>middleware => res
+// Any function that the app.get gets as a parameter not as callback will act as a middleware. "logger" 
+// right now is the middleware. It automatically receives the "req", "res" and "next" as parameters.
+// app.get('/', logger,(req,res)=>{
+//    res.send('Home')
+// })
+
+app.get('/', (req,res)=>{
+   res.send('Home')
 })
 
-// Route with 1 query parameter which searches from a json file and returns a set/row of data.
-app.get('/api/products/:productID', (req, res) => {   
-   // console.log( req )
-   // console.log( req.params )
-   // const newProducts = products.map((product) => {
-   //    const {id, name, image} = product
-   //    return {id, name, image}
-   // })
-   const { productID } = req.params
-
-   const singleProduct = products.find( (product) => {
-      return product.id === Number(productID)
-   })
-
-   // this block will trigger if the productID is not found
-   if(!singleProduct){
-      return res.status(404).send('Product Doesn\'t Exist')
-   }
-
-   res.status(200).json(singleProduct)
+app.get('/about', (req,res)=>{
+   res.send('About')
 })
 
-// a route with 2 query parameters. You can see that it will be displayed as key value pairs if you console.log
-app.get('/api/products/:productID/reviews/:reviewID', (req, res)=>{   
-   console.log(req.params.reviewID)
-   // to access a particular query parameter, use these
-   console.log(req.params.reviewID)
-   console.log(req.params.productID)
-   res.send('<h1> Query Parameters Page </a>')
+app.get('/api/products', (req,res)=>{
+   res.send('Products')
 })
 
-app.get('/api/v1/query', (req, res)=>{
-   console.log(req.query)
-   // store the query string parameters in variables "search" and "limit"
-   const {search, limit} = req.query
-   // here we are using the spread operator to copy stuff. Otherwise, JS will either copy by reference or do
-   // nested copy. Using the spread operator is the best way to copy arrays and objects.
-   let sortedProducts = [...products]
-
-   // filter if the product has name equal to the string parameter "search"
-   if(search){
-      sortedProducts = sortedProducts.filter((product) => {
-         return product.name.startsWith(search)
-      })
-   }
-
-   // return the specified number of results. So if limit=2, then the first 2 results will be returned
-   if(limit){
-      sortedProducts = sortedProducts.slice(0, Number(limit))
-   }
-
-   // If search did not find any result
-   if(sortedProducts.length < 1){
-      //res.status(200).send('No Products Matched Your Search')
-      return res.status(200).json({ success: true, data: [] })
-   }
-
-   res.status(200).json(sortedProducts)
-   // res.send('<h1> Query String Page </a>')
+app.get('/api/items', (req,res)=>{
+   res.send('items')
 })
 
 app.listen(5000, ()=>{
