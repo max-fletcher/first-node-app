@@ -1,44 +1,42 @@
 // invoke express
 const express = require('express')
 const app = express()
-
-// invoke built-in path module
-const path = require('path')
-
-// app.use
-// setup static and middleware
-// summon all files/resources (e.g html, stylesheets, JS files and images) from folder named public
-app.use(express.static('./public'))
-
-// We don't need this anymore since we are using app.use to summon all files. Later, we can use the SSR templating
-// engine
+// importing the products JSON array from the data file
+const {products} = require('./data')
 
 //app.get
-// app.get('/', (req, res)=>{
-//    // using node's built-in path module to define what file to send back as response
-//    res.sendFile(path.resolve(__dirname, './navbar-app/index.html'))
-//    //console.log('User Hit the Resource')
-//    //res.status(200).send('Home Page')
-//    adding to static assets
-//    SSR
-// })
-
-//app.get
-app.get('/about', (req, res)=>{
-   console.log('User Hit About Page')
-   res.status(200).send('About Page')
+app.get('/', (req, res)=>{   
+   // res.json([{name:'John'}, {name: 'susan'}])
+   res.send('<h1> Home Page For You ! Okey Poke !! </h1> <a href="/api/products"> Products </a>')
+   // res.json(products)
 })
 
-//app.all
-// This us used to define what is sent back as response if the url doesn't match. The * means all.
-app.all('*', (req, res)=>{
-   res.status(404).send("<h1> Resource Not Found </h1>")
+app.get('/api/products/:productID', (req, res) => {   
+   // console.log( req )
+   // console.log( req.params )
+   // const newProducts = products.map((product) => {
+   //    const {id, name, image} = product
+   //    return {id, name, image}
+   // })
+   const { productID } = req.params
+
+   const singleProduct = products.find( (product) => {
+      return product.id === Number(productID)
+   })
+
+   // this block will trigger if the productID is not found
+   if(!singleProduct){
+      return res.status(404).send('Product Doesn\'t Exist')
+   }
+
+   res.status(200).json(singleProduct)
 })
 
-//app.post
-//app.put
-//app.delete
-//app.listen
+app.get('/api/products/:productID/reviews/:reviewID', (req, res)=>{   
+   console.log(req.params)
+   res.send('<h1> Hello World </a>')
+})
+
 app.listen(5000, ()=>{
-   console.log('Listening to Server...')
+   console.log('Server is Listening on port 5000...')
 })

@@ -4,6 +4,8 @@ const path = require('path')
 const app = express()
 
 // setup static and middleware
+// This gets rid of the need to define routes to different files(a.k.a static assets) since doing so might become
+//  tedious at one point
 app.use(express.static('./public'))
 
 // app.get('/', (req, res) => {
