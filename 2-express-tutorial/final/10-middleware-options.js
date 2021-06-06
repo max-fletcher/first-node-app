@@ -9,7 +9,8 @@ const morgan = require('morgan')
 const logger = require('./logger')
 const authorize = require('./authorize')
 
-// use the morgan tiny function as middleware. It tell you how fast your page loads
+// use the morgan tiny function as middleware. It tell you how fast your page loads along with url and request method.
+// it is used globally in this file so any route will execute this middleware.
 app.use(morgan('tiny'))
 
 // Using logger as middleware. Also, order matters. Placing it below any app.get will cause this to apply
