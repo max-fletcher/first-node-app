@@ -5,7 +5,7 @@ const app = express()
 const {products} = require('./data')
 
 //app.get
-app.get('/', (req, res)=>{   
+app.get('/', (req, res)=>{
    // res.json([{name:'John'}, {name: 'susan'}])
    res.json(products)
 })

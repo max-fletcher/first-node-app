@@ -34,7 +34,7 @@ app.get('/api/products/:productID', (req, res) => {
 })
 
 // a route with 2 query parameters. You can see that it will be displayed as key value pairs if you console.log
-app.get('/api/products/:productID/reviews/:reviewID', (req, res)=>{   
+app.get('/api/products/:productID/reviews/:reviewID', (req, res)=>{
   console.log(req.params.reviewID)
    // to access a particular query parameter, use these
   console.log(req.params.reviewID)

@@ -1,7 +1,9 @@
 const express = require('express')
 const app = express()
 
-//  req => middleware => res
+// req => middleware => res
+// Middleware has access to both the request and response from a request.
+// Format is, app.method('/route-url', middleware, function(){} OR ()=>{} (I.E A CALLBACK FUNCTION) )
 
 const logger = (req, res, next) => {
   const method = req.method
